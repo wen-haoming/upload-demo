@@ -2,6 +2,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Row, Col, Input, Button, message } from 'antd'
 import { request } from './utils'
+import { read } from 'fs'
 
 function allowUpload(file: File) {
     let type = file.type
@@ -30,12 +31,9 @@ const Upload = () => {
 
     useEffect(() => {
         if (!currentFile) return
-        let objectURL = window.URL.createObjectURL(currentFile)
-        console.log(objectURL)
-        setObjectURL(objectURL)
-        return () => {
-            window.URL.revokeObjectURL(objectURL)
-        }
+        let reader = new FileReader()
+        reader.onload = ()=>{ setObjectURL(reader.result as string) }
+        reader.readAsDataURL(currentFile)
     }, [currentFile])
 
 
