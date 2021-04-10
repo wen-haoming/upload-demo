@@ -1,18 +1,18 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Row, Col, Input, Button, message } from 'antd'
-import {request} from './utils'
+import { request } from './utils'
 
 function allowUpload(file: File) {
     let type = file.type
     let isValidFileTypes = ["image/jpeg", "image/png", "image/gif", "video/mp4"].includes(type)
-    if(!isValidFileTypes){
-         message.error('不支持此类')
+    if (!isValidFileTypes) {
+        message.error('不支持此类')
     }
 
-    const isLessThan2G = file.size  < 1024 * 1024 * 1024 * 2
+    const isLessThan2G = file.size < 1024 * 1024 * 1024 * 2
 
-    if(!isLessThan2G){
+    if (!isLessThan2G) {
         message.error('上传文件不能大于2G')
     }
     return isValidFileTypes && isLessThan2G
@@ -48,13 +48,15 @@ const Upload = () => {
         }
 
         const formData = new FormData();
-        formData.append('chunk',currentFile)
-        formData.append('filename',currentFile.name)
-        await request({
-            url:'/upload',
-            method:'post',
-            data:formData
+        formData.append('chunk', currentFile)
+        formData.append('filename', currentFile.name)
+       let result =  await request({
+            url: '/upload',
+            method: 'POST',
+            data: formData
         })
+        console.log(result)
+        message.success('上传成功')
     }
 
     return <Row>
