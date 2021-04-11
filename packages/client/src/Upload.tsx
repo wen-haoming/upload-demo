@@ -1,8 +1,7 @@
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, memo, useEffect, useState } from 'react'
 import { Row, Col, Input, Button, message } from 'antd'
 import { request } from './utils'
-import { read } from 'fs'
 
 function allowUpload(file: File) {
     let type = file.type
@@ -48,13 +47,17 @@ const Upload = () => {
         const formData = new FormData();
         formData.append('chunk', currentFile)
         formData.append('filename', currentFile.name)
-       let result =  await request({
+      try{
+        let result =  await request({
             url: '/upload',
             method: 'POST',
             data: formData
         })
         console.log(result)
         message.success('上传成功')
+      }catch(e){
+        message.error('上传失败')
+      }
     }
 
     return <Row>
@@ -70,4 +73,4 @@ const Upload = () => {
     </Row>
 }
 
-export default Upload
+export default  memo(Upload)

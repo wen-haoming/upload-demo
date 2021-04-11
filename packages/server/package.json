@@ -17,6 +17,16 @@
     "registry": "https://registry.npm.taobao.org/"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "start": "cross-env PORT=8000 nodemon --exec ts-node --files ./src/www.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs-extra": "^9.1.0",
+    "http-errors": "^1.8.0",
+    "http-status-codes": "^2.1.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multiparty": "^4.2.2"
   }
 }

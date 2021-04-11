@@ -3,6 +3,7 @@ interface Options{
     url:string
     headers?:any
     data:any
+    baseURL?:string
 }
 
 export const request = (options: Options):Promise<any> => {
@@ -15,12 +16,12 @@ export const request = (options: Options):Promise<any> => {
      options = {...defaultOptions,...options,headers:{...defaultOptions.headers,...options.headers}}
      return new Promise((resolve,reject)=>{
          let xhr = new XMLHttpRequest()
-         xhr.open(options.method,options.url)
+         xhr.open(options.method,options.baseURL + options.url)
          for(let key in options.headers){
             xhr.setRequestHeader(key,options.headers[key])
          }
          xhr.responseType = 'json'
-
+         xhr.send(options.data)
          xhr.onreadystatechange = ()=>{
              if(xhr.readyState === 4 && xhr.status === 200){
                 resolve(xhr.response)
